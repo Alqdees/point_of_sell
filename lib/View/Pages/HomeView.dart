@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -22,7 +23,9 @@ class HomeView extends StatelessWidget {
                     height: 10,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      
+                    },
                     child: const Text('Add'),
                   ),
                   const SizedBox(
