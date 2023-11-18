@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:point_of_sell/Control/HomeController.dart';
+import 'package:point_of_sell/View/Pages/Add_Item.dart';
 import 'package:point_of_sell/generated/l10n.dart';
 
 class HomeView extends StatelessWidget {
@@ -12,34 +13,35 @@ class HomeView extends StatelessWidget {
       key: scaffoldKey,
       appBar: _appBar(context, scaffoldKey),
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 18, 8, 46),
+                color: Color.fromARGB(
+                  255,
+                  18,
+                  8,
+                  46,
+                ),
               ),
               child: Text(
                 S.of(context).SaleofPoint,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
             ListTile(
-              title:  Text(S.of(context).add),
+              title: Text(S.of(context).add),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Get.to(const AddItem());
               },
             ),
             ListTile(
               title: const Text('Item 2'),
               onTap: () {
-                // Update the state of the app.
-                // ...
+              
               },
             ),
           ],
@@ -106,7 +108,10 @@ BoxDecoration _boxDecoration() {
       bottom: Radius.circular(20),
     ),
     gradient: LinearGradient(
-      colors: [Color.fromARGB(255, 18, 8, 46), Color.fromARGB(255, 18, 8, 46)],
+      colors: [
+        Color.fromARGB(255, 18, 8, 46),
+        Color.fromARGB(255, 18, 8, 46),
+      ],
       // begin: Alignment.topCenter,
       // end: Alignment.bottomCenter,
     ),
@@ -116,21 +121,16 @@ BoxDecoration _boxDecoration() {
 Widget _topBar(BuildContext context) {
   return const Row(
     children: [
-      // Image.asset(
-      //   'assets/logo.png',
-      //   scale: 50,
-      // ),
       Expanded(
         child: Text(
           'Point Of Sale',
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 16),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
         ),
       ),
-      // const CircleAvatar(
-      //   radius: 15,
-      //   backgroundImage: AssetImage('assets/profile.jpeg'),
-      // )
     ],
   );
 }
@@ -200,7 +200,9 @@ Widget _tabBarViewItem(IconData icon, String name) {
       ),
       Text(
         name,
-        style: const TextStyle(fontSize: 40),
+        style: const TextStyle(
+          fontSize: 40,
+        ),
       ),
     ],
   );

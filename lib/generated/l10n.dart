@@ -60,6 +60,7 @@ class S {
     );
   }
 
+  /// `Add Item`
   String get add {
     return Intl.message(
       'Add Item',
@@ -68,7 +69,6 @@ class S {
       args: [],
     );
   }
-  // skipped getter for the 'add ' key
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
