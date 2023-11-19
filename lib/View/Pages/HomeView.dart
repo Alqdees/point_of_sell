@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:point_of_sell/Control/HomeController.dart';
+import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
+import 'package:point_of_sell/View/Colors/Colors.dart';
 import 'package:point_of_sell/View/Pages/Add_Item.dart';
 import 'package:point_of_sell/generated/l10n.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
+  late DataBaseSqflite dataB;
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    dataB = DataBaseSqflite();
     return Scaffold(
       key: scaffoldKey,
       appBar: _appBar(context, scaffoldKey),
@@ -17,13 +21,8 @@ class HomeView extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(
-                  255,
-                  18,
-                  8,
-                  46,
-                ),
+              decoration: BoxDecoration(
+                color: ColorUsed.appBarColor,
               ),
               child: Text(
                 S.of(context).SaleofPoint,
@@ -35,14 +34,12 @@ class HomeView extends StatelessWidget {
             ListTile(
               title: Text(S.of(context).add),
               onTap: () {
-                Get.to(const AddItem());
+                Get.to( AddItem());
               },
             ),
             ListTile(
               title: const Text('Item 2'),
-              onTap: () {
-              
-              },
+              onTap: () {},
             ),
           ],
         ),
@@ -103,14 +100,14 @@ class HomeView extends StatelessWidget {
 }
 
 BoxDecoration _boxDecoration() {
-  return const BoxDecoration(
-    borderRadius: BorderRadius.vertical(
+  return BoxDecoration(
+    borderRadius: const BorderRadius.vertical(
       bottom: Radius.circular(20),
     ),
     gradient: LinearGradient(
       colors: [
-        Color.fromARGB(255, 18, 8, 46),
-        Color.fromARGB(255, 18, 8, 46),
+        ColorUsed.appBarColor,
+        const Color.fromARGB(255, 18, 8, 46),
       ],
       // begin: Alignment.topCenter,
       // end: Alignment.bottomCenter,

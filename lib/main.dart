@@ -3,10 +3,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
 import 'package:point_of_sell/View/Pages/HomeView.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'generated/l10n.dart';
 
 void main() {
+
+    WidgetsFlutterBinding.ensureInitialized();
+ sqfliteFfiInit();
+
+
+ databaseFactory = databaseFactoryFfi;
   runApp(const MyApp());
 }
 
@@ -33,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomeView(),
+      home:  HomeView(),
     );
   }
 }

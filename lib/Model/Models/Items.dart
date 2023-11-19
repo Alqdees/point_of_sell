@@ -8,6 +8,4 @@ class Items {
     this.description = description;
   }
   
-
-
 }
