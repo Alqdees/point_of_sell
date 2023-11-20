@@ -4,6 +4,7 @@ import 'package:point_of_sell/Control/HomeController.dart';
 import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
 import 'package:point_of_sell/View/Colors/Colors.dart';
 import 'package:point_of_sell/View/Pages/Add_Item.dart';
+import 'package:point_of_sell/View/Widget/AllItems.dart';
 import 'package:point_of_sell/generated/l10n.dart';
 
 class HomeView extends StatelessWidget {
@@ -34,7 +35,7 @@ class HomeView extends StatelessWidget {
             ListTile(
               title: Text(S.of(context).add),
               onTap: () {
-                Get.to( AddItem());
+                Get.to(AddItem());
               },
             ),
             ListTile(
@@ -46,20 +47,19 @@ class HomeView extends StatelessWidget {
       ),
       body: GetBuilder<HomeController>(
         init: HomeController(),
-        builder: (controller) => const Row(
+        builder: (controller) => Row(
           children: [
             Expanded(
-              flex: 4,
-              child: Column(
-                children: [
-                  Text('1'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text('2'),
-                ],
-              ),
-            ),
+                flex: 4,
+                child: ListView.builder(
+                  itemCount: 2,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AllItems(
+                      name: 'name',
+                      sale: 'sale',
+                    );
+                  },
+                )),
           ],
         ),
       ),

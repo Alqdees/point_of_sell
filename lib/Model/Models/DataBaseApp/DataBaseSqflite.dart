@@ -76,7 +76,7 @@ class DataBaseSqflite {
     );
   }
 
-  Future insert(String table, Map<String, dynamic> data) async {
+  Future<int> insert(String table, Map<String, dynamic> data) async {
     Database? db = await databasesq;
     return db!.insert(
       table,
@@ -84,4 +84,5 @@ class DataBaseSqflite {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+  
 }

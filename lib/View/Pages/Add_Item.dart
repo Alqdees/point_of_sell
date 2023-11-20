@@ -8,7 +8,7 @@ import '../Widget/TextField.dart';
 class AddItem extends StatelessWidget {
   AddItem({Key? key}) : super(key: key);
   DataBaseSqflite? data;
-  TextEditingController? name;
+  TextEditingController name = TextEditingController();
   TextEditingController code = TextEditingController();
   TextEditingController sale = TextEditingController();
   TextEditingController buy = TextEditingController();
@@ -16,7 +16,7 @@ class AddItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     data = DataBaseSqflite();
-    name = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Item'),
@@ -53,23 +53,50 @@ class AddItem extends StatelessWidget {
             height: 28,
           ),
           TextFieldCustom(
-            name: "Price Item",
+            name: "sale",
             icons: Icons.price_change,
+            text: sale,
           ),
           const SizedBox(
             height: 28,
           ),
           TextFieldCustom(
-            name: "Description Item",
+            name: "Buy",
             icons: Icons.description,
+            text: buy,
+          ),
+          const SizedBox(
+            height: 28,
+          ),
+          TextFieldCustom(
+            name: "Quantity",
+            icons: Icons.description,
+            text: quantity,
           ),
           const SizedBox(
             height: 42,
           ),
           OutlinedButton(
             onPressed: () async {
-              
-              
+              int result = await data!.insert(
+                DataBaseSqflite.TableName,
+                {
+                  DataBaseSqflite.name: name.text,
+                  DataBaseSqflite.codeItem: code.text,
+                  DataBaseSqflite.sale: sale.text,
+                  DataBaseSqflite.buy: buy.text,
+                  DataBaseSqflite.quantity: quantity.text
+                },
+              );
+              if (result > 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('تمت الاضافة'),
+                  ),
+                );
+              } else {
+                print("____-Field");
+              }
             },
             child: Text(
               'ADD DATA',
