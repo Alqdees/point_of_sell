@@ -12,8 +12,9 @@ class DataBaseSqflite {
   static const id = 'ID';
   static const name = 'Name';
   static const codeItem = 'Code';
-  static const price = 'Price';
-  static const description = 'Description';
+  static const sale = 'Sale';
+  static const buy = 'Buy';
+  static const quantity = 'Quantity';
 
   Database? _database;
   var s;
@@ -68,7 +69,8 @@ class DataBaseSqflite {
         version: version,
         onCreate: (db, version) async {
           await db.execute(
-              "CREATE TABLE IF NOT EXISTS $TableName ($id INTEGER PRIMARY KEY AUTOINCREMENT  , $name TEXT , $codeItem TEXT , $price TEXT , $description TEXT )");
+              "CREATE TABLE IF NOT EXISTS $TableName ($id INTEGER PRIMARY KEY AUTOINCREMENT  , $name TEXT , $codeItem TEXT , $sale TEXT , $buy TEXT , $quantity TEXT )");
+              
         },
       ),
     );

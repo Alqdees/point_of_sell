@@ -8,10 +8,15 @@ import '../Widget/TextField.dart';
 class AddItem extends StatelessWidget {
   AddItem({Key? key}) : super(key: key);
   DataBaseSqflite? data;
-
+  TextEditingController? name;
+  TextEditingController code = TextEditingController();
+  TextEditingController sale = TextEditingController();
+  TextEditingController buy = TextEditingController();
+  TextEditingController quantity = TextEditingController();
   @override
   Widget build(BuildContext context) {
     data = DataBaseSqflite();
+    name = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Item'),
@@ -34,6 +39,7 @@ class AddItem extends StatelessWidget {
           TextFieldCustom(
             name: "Item Name",
             icons: Icons.person,
+            text: name,
           ),
           const SizedBox(
             height: 28,
@@ -41,6 +47,7 @@ class AddItem extends StatelessWidget {
           TextFieldCustom(
             name: "Code Item",
             icons: Icons.barcode_reader,
+            text: code,
           ),
           const SizedBox(
             height: 28,
@@ -61,12 +68,8 @@ class AddItem extends StatelessWidget {
           ),
           OutlinedButton(
             onPressed: () async {
-await              data!.insert(DataBaseSqflite.TableName, {
-                "Name": "ahemd",
-                "Code": "123",
-                "Price": "123",
-                "Description": "ahemd444"
-              });
+              
+              
             },
             child: Text(
               'ADD DATA',
