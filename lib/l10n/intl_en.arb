@@ -1,4 +1,9 @@
 {
     "SaleofPoint": "Point Of Sale",
-    "add": "Add Item"
+    "add": "Add Item",
+    "itemName": "Item Name",
+    "code": "Code",
+    "sale": "Sale",
+    "buy": "Buy",
+    "quantity": "Quantity"
 }

@@ -2,17 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
 import 'package:point_of_sell/View/Colors/Colors.dart';
+import 'package:point_of_sell/generated/l10n.dart';
 
 import '../Widget/TextField.dart';
 
-class AddItem extends StatelessWidget {
+class AddItem extends StatefulWidget {
   AddItem({Key? key}) : super(key: key);
+
+  @override
+  State<AddItem> createState() => _AddItemState();
+}
+
+class _AddItemState extends State<AddItem> {
   DataBaseSqflite? data;
+
   TextEditingController name = TextEditingController();
+
   TextEditingController code = TextEditingController();
+
   TextEditingController sale = TextEditingController();
+
   TextEditingController buy = TextEditingController();
+
   TextEditingController quantity = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     data = DataBaseSqflite();
@@ -37,7 +50,7 @@ class AddItem extends StatelessWidget {
             height: 28,
           ),
           TextFieldCustom(
-            name: "Item Name",
+            name: S.of(context).itemName,
             icons: Icons.person,
             text: name,
           ),
@@ -45,7 +58,7 @@ class AddItem extends StatelessWidget {
             height: 28,
           ),
           TextFieldCustom(
-            name: "Code Item",
+            name: S.of(context).code,
             icons: Icons.barcode_reader,
             text: code,
           ),
@@ -53,7 +66,7 @@ class AddItem extends StatelessWidget {
             height: 28,
           ),
           TextFieldCustom(
-            name: "sale",
+            name: S.of(context).sale,
             icons: Icons.price_change,
             text: sale,
           ),
@@ -61,7 +74,7 @@ class AddItem extends StatelessWidget {
             height: 28,
           ),
           TextFieldCustom(
-            name: "Buy",
+            name: S.of(context).buy,
             icons: Icons.description,
             text: buy,
           ),
@@ -69,7 +82,7 @@ class AddItem extends StatelessWidget {
             height: 28,
           ),
           TextFieldCustom(
-            name: "Quantity",
+            name: S.of(context).quantity,
             icons: Icons.description,
             text: quantity,
           ),
@@ -89,17 +102,21 @@ class AddItem extends StatelessWidget {
                 },
               );
               if (result > 0) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('تمت الاضافة'),
-                  ),
-                );
+               
+                name.clear();
+                code.clear();
+                sale.clear();
+                buy.clear();
+                quantity.clear();
+                setState(() {
+                  
+                });
               } else {
                 print("____-Field");
               }
             },
             child: Text(
-              'ADD DATA',
+              S.of(context).add,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: ColorUsed.appBarColor,

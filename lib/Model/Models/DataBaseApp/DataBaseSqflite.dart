@@ -84,5 +84,21 @@ class DataBaseSqflite {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+  Future<List<Map<String, dynamic>?>?> getAllUser(
+      String skip, String limit) async {
+    Database? db = await databasesq;
+    var result = await db!.rawQuery(
+        'SELECT * FROM $TableName  WHERE ID > $skip ORDER BY ID LIMIT $limit');
+
+    return result.toList();
+  }
+ // delete
+  Future<Future<int>?> delete(String id) async {
+    Database? db = await databasesq;
+    return db?.rawDelete(
+      'DELETE FROM $TableName WHERE id = ?',
+      [id],
+    );
+  }
   
 }

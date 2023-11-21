@@ -14,6 +14,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     dataB = DataBaseSqflite();
+
     return Scaffold(
       key: scaffoldKey,
       appBar: _appBar(context, scaffoldKey),
@@ -46,23 +47,40 @@ class HomeView extends StatelessWidget {
         ),
       ),
       body: GetBuilder<HomeController>(
-        init: HomeController(),
-        builder: (controller) => Row(
-          children: [
-            Expanded(
-                flex: 4,
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AllItems(
-                      name: 'name',
-                      sale: 'sale',
-                    );
-                  },
-                )),
-          ],
-        ),
-      ),
+          init: HomeController(),
+          builder: (controller) {
+            controller.paginationData();
+            return controller.items.isEmpty ?
+            const Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('Wait'),
+                    ]),
+              )
+:
+             Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: ListView.builder(
+                    controller: controller.controller,
+                    itemCount: controller.items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return AllItems(
+                        name:controller.items[index].name ,
+                        sale: controller.items[index].sale,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }),
     );
   }
 
