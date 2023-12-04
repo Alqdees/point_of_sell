@@ -16,6 +16,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> paginationData() async {
+    // items are list All data
     if (items.isEmpty) {
       getPData();
     }
@@ -50,6 +51,11 @@ class HomeController extends GetxController {
     items.addAll(item);
     update();
   }
-  
-  
+
+  Future<void> deleteItem(String id) async {
+    await dataBaseSqflite.delete(id);
+    items.remove(id);
+    print('__________________________$id');
+    update();
+  }
 }

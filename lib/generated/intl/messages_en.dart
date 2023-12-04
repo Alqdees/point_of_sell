@@ -26,8 +26,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "add": MessageLookupByLibrary.simpleMessage("Add Item"),
         "buy": MessageLookupByLibrary.simpleMessage("Buy"),
         "code": MessageLookupByLibrary.simpleMessage("Code"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "itemName": MessageLookupByLibrary.simpleMessage("Item Name"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
-        "sale": MessageLookupByLibrary.simpleMessage("Sale")
+        "sale": MessageLookupByLibrary.simpleMessage("Sale"),
+        "select": MessageLookupByLibrary.simpleMessage("Select ... ")
       };
 }

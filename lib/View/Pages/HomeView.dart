@@ -50,36 +50,82 @@ class HomeView extends StatelessWidget {
           init: HomeController(),
           builder: (controller) {
             controller.paginationData();
-            return controller.items.isEmpty ?
-            const Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            return controller.items.isEmpty
+                ? const Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text('Wait'),
+                        ]),
+                  )
+                : Row(
                     children: [
-                      CircularProgressIndicator(),
-                      SizedBox(
-                        height: 8,
+                      Expanded(
+                        flex: 4,
+                        child: ListView.builder(
+                          controller: controller.controller,
+                          itemCount: controller.isLaodingMore
+                              ? controller.items.length + 1
+                              : controller.items.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AllItems(
+                              name: controller.items[index].name,
+                              sale: controller.items[index].sale,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    final width =
+                                        MediaQuery.of(context).size.width;
+                                    return AlertDialog(
+                                      title: Text(S.of(context).select),
+                                      actions: [
+                                        Row(
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {},
+                                              child: Text(
+                                                S.of(context).edit,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 22,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width / 5,
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                controller.deleteItem(
+                                                    controller.items[index].id);
+                                                Get.back();
+                                              },
+                                              child: Text(
+                                                S.of(context).delete,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 22,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                      Text('Wait'),
-                    ]),
-              )
-:
-             Row(
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: ListView.builder(
-                    controller: controller.controller,
-                    itemCount: controller.items.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return AllItems(
-                        name:controller.items[index].name ,
-                        sale: controller.items[index].sale,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
+                    ],
+                  );
           }),
     );
   }

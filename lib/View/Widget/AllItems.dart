@@ -6,12 +6,8 @@ class AllItems extends StatelessWidget {
   // const CardViewList({super.key});
 
   String name, sale;
-
-  AllItems({
-    super.key,
-    required this.name,
-    required this.sale,
-  });
+  VoidCallback onPressed;
+  AllItems({super.key, required this.name, required this.sale, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +42,15 @@ class AllItems extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            width: 4,
+          ),
+          IconButton(
+            onPressed: onPressed,
+            icon: const Icon(
+              Icons.edit,
+            ),
+          )
         ],
       ),
     );

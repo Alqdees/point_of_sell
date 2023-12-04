@@ -70,7 +70,6 @@ class DataBaseSqflite {
         onCreate: (db, version) async {
           await db.execute(
               "CREATE TABLE IF NOT EXISTS $TableName ($id INTEGER PRIMARY KEY AUTOINCREMENT  , $name TEXT , $codeItem TEXT , $sale TEXT , $buy TEXT , $quantity TEXT )");
-              
         },
       ),
     );
@@ -84,6 +83,7 @@ class DataBaseSqflite {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
   Future<List<Map<String, dynamic>?>?> getAllUser(
       String skip, String limit) async {
     Database? db = await databasesq;
@@ -92,13 +92,25 @@ class DataBaseSqflite {
 
     return result.toList();
   }
- // delete
+
+  // delete
   Future<Future<int>?> delete(String id) async {
     Database? db = await databasesq;
+    // db?.delete(TableName, id);
+    
     return db?.rawDelete(
-      'DELETE FROM $TableName WHERE id = ?',
+      'DELETE FROM $TableName WHERE ID = ?',
       [id],
     );
   }
-  
+
+  Future<Future<int>?> update(
+    String Table,
+    String Column,
+    String valus,
+    String id,
+  ) async {
+    Database? db = await databasesq;
+    return db?.update(Table, {Column: valus}, where: 'ID = ?', whereArgs: [id]);
+  }
 }
