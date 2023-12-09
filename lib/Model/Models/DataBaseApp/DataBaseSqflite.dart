@@ -15,6 +15,7 @@ class DataBaseSqflite {
   static const sale = 'Sale';
   static const buy = 'Buy';
   static const quantity = 'Quantity';
+  static const date = 'Date';
 
   Database? _database;
   var s;
@@ -29,7 +30,7 @@ class DataBaseSqflite {
     if (_database != null) {
       return _database;
     } else if (Platform.isWindows || Platform.isLinux) {
-      return widowsApp();
+      return windowsApp();
     } else {
       return await initDataBase();
     }
@@ -58,34 +59,36 @@ class DataBaseSqflite {
     return await openDatabase(path, version: version);
   }
 
-  Future<Database?> widowsApp() async {
-    // print("_____________$path");
-
+  Future<Database?> windowsApp() async {
     final path = await getDatabasesPath();
-    print('_______$path');
+  
     return await s.openDatabase(
       path,
       options: OpenDatabaseOptions(
         version: version,
         onCreate: (db, version) async {
           await db.execute(
-              "CREATE TABLE IF NOT EXISTS $TableName ($id INTEGER PRIMARY KEY AUTOINCREMENT  , $name TEXT , $codeItem TEXT , $sale TEXT , $buy TEXT , $quantity TEXT )");
+              "CREATE TABLE IF NOT EXISTS $TableName ($id INTEGER PRIMARY KEY AUTOINCREMENT  , $name TEXT , $codeItem TEXT , $sale TEXT , $buy TEXT , $quantity TEXT ,$date TEXT )");
         },
       ),
     );
   }
 
-  Future<int> insert(String table, Map<String, dynamic> data) async {
+  Future<int> insert(Map<String, dynamic> data) async {
     Database? db = await databasesq;
     return db!.insert(
-      table,
+      TableName,
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<Map<String, dynamic>?>?> getAllUser(
-      String skip, String limit) async {
+  Future<int> updateItem(Map<String, dynamic> data) async {
+    Database? db = await databasesq;
+    return db!.update(TableName, data);
+  }
+
+  Future<List<Map<String, dynamic>?>> getAllUser(skip, limit) async {
     Database? db = await databasesq;
     var result = await db!.rawQuery(
         'SELECT * FROM $TableName  WHERE ID > $skip ORDER BY ID LIMIT $limit');
@@ -97,20 +100,20 @@ class DataBaseSqflite {
   Future<Future<int>?> delete(String id) async {
     Database? db = await databasesq;
     // db?.delete(TableName, id);
-    
+
     return db?.rawDelete(
       'DELETE FROM $TableName WHERE ID = ?',
       [id],
     );
   }
 
-  Future<Future<int>?> update(
-    String Table,
-    String Column,
-    String valus,
-    String id,
-  ) async {
+     Future<List<Map<String, dynamic>>> searchInDatabase(String query) async {
     Database? db = await databasesq;
-    return db?.update(Table, {Column: valus}, where: 'ID = ?', whereArgs: [id]);
+    final List<Map<String, dynamic>> results = await db!.query(
+      TableName,
+      where: '$name LIKE ?',
+      whereArgs: ['%$query%'],
+    );
+    return results;
   }
 }

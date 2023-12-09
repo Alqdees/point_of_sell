@@ -8,12 +8,10 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'generated/l10n.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  sqfliteFfiInit();
 
-    WidgetsFlutterBinding.ensureInitialized();
- sqfliteFfiInit();
-
-
- databaseFactory = databaseFactoryFfi;
+  databaseFactory = databaseFactoryFfi;
   runApp(const MyApp());
 }
 
@@ -23,7 +21,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -40,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home:  HomeView(),
+      home: HomeView(),
     );
   }
 }

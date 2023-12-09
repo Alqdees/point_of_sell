@@ -8,5 +8,8 @@
     "quantity": "Quantity",
     "delete": "Delete",
     "edit": "Edit",
-    "select": "Select ... "
+    "select": "Select ... ",
+    "Update_Data": "Update Data",
+    "date": "Date",
+    "search": "Search"
 }

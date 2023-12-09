@@ -4,133 +4,82 @@ import 'package:point_of_sell/Control/HomeController.dart';
 import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
 import 'package:point_of_sell/View/Colors/Colors.dart';
 import 'package:point_of_sell/View/Pages/Add_Item.dart';
+import 'package:point_of_sell/View/Pages/UpdateData.dart';
 import 'package:point_of_sell/View/Widget/AllItems.dart';
 import 'package:point_of_sell/generated/l10n.dart';
 
+import '../Widget/CardView.dart';
+
 class HomeView extends StatelessWidget {
-  HomeView({super.key});
-  late DataBaseSqflite dataB;
+  const HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    dataB = DataBaseSqflite();
 
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: _appBar(context, scaffoldKey),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: ColorUsed.appBarColor,
-              ),
-              child: Text(
-                S.of(context).SaleofPoint,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text(S.of(context).add),
-              onTap: () {
-                Get.to(AddItem());
+    return GetBuilder<HomeController>(
+      init: HomeController(),
+      builder: (controller) {
+        return Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(
+            toolbarHeight: 65.0,
+            backgroundColor: ColorUsed.appBarColor,
+            leading: IconButton(
+              onPressed: () {
+                scaffoldKey.currentState!.openDrawer();
               },
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
             ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {},
+            title: controller.title,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  controller.changeWidget();
+                },
+                icon: controller.actionsicon,
+              ),
+            ],
+          ), // _appBar(context, scaffoldKey, controller),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: ColorUsed.appBarColor,
+                  ),
+                  child: Text(
+                    S.of(context).SaleofPoint,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(S.of(context).add),
+                  onTap: () {
+                    Get.to(AddItem());
+                  },
+                ),
+                ListTile(
+                  title: const Text('Item 2'),
+                  onTap: () {},
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      body: GetBuilder<HomeController>(
-          init: HomeController(),
-          builder: (controller) {
-            controller.paginationData();
-            return controller.items.isEmpty
-                ? const Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text('Wait'),
-                        ]),
-                  )
-                : Row(
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: ListView.builder(
-                          controller: controller.controller,
-                          itemCount: controller.isLaodingMore
-                              ? controller.items.length + 1
-                              : controller.items.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return AllItems(
-                              name: controller.items[index].name,
-                              sale: controller.items[index].sale,
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    final width =
-                                        MediaQuery.of(context).size.width;
-                                    return AlertDialog(
-                                      title: Text(S.of(context).select),
-                                      actions: [
-                                        Row(
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {},
-                                              child: Text(
-                                                S.of(context).edit,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 22,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width / 5,
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                controller.deleteItem(
-                                                    controller.items[index].id);
-                                                Get.back();
-                                              },
-                                              child: Text(
-                                                S.of(context).delete,
-                                                style: const TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 22,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  );
-          }),
+          ),
+          body: const CardView(),
+        );
+      },
     );
   }
 
-  PreferredSize _appBar(BuildContext ctx, GlobalKey<ScaffoldState> key) {
+  PreferredSize _appBar(
+      BuildContext ctx, GlobalKey<ScaffoldState> key, HomeController c) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(80),
       child: Container(
@@ -140,7 +89,7 @@ class HomeView extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              _topBar(ctx),
+              _topBar(ctx, c),
               const SizedBox(height: 5),
               Row(
                 children: [
@@ -152,6 +101,14 @@ class HomeView extends StatelessWidget {
                       Icons.menu,
                       color: Colors.white,
                     ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        c.changeWidget();
+                      },
+                      icon: c.actionsicon),
+                  Center(
+                    child: c.title,
                   )
                 ],
               )
@@ -179,20 +136,10 @@ BoxDecoration _boxDecoration() {
   );
 }
 
-Widget _topBar(BuildContext context) {
-  return const Row(
-    children: [
-      Expanded(
-        child: Text(
-          'Point Of Sale',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-          ),
-        ),
-      ),
-    ],
+Widget _topBar(BuildContext context, HomeController home) {
+  return Expanded(
+    flex: 1,
+    child: home.title,
   );
 }
 

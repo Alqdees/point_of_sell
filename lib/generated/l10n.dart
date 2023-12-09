@@ -149,6 +149,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Update Data`
+  String get Update_Data {
+    return Intl.message(
+      'Update Data',
+      name: 'Update_Data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

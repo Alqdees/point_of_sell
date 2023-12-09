@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:point_of_sell/Control/HomeController.dart';
-import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
-import 'package:point_of_sell/View/Colors/Colors.dart';
-import 'package:point_of_sell/generated/l10n.dart';
+import 'package:point_of_sell/View/Widget/TextField.dart';
+import '../../Control/HomeController.dart';
+import '../../Model/Models/DataBaseApp/DataBaseSqflite.dart';
+import '../../generated/l10n.dart';
+import '../Colors/Colors.dart';
 
-import '../Widget/TextField.dart';
-
-class AddItem extends StatelessWidget {
-
-  DataBaseSqflite? data;
-
+class UpdateData extends StatelessWidget {
+  String named, coded, saled, buyt, quan;
+  late DataBaseSqflite data;
   TextEditingController name = TextEditingController();
 
   TextEditingController code = TextEditingController();
@@ -20,16 +18,29 @@ class AddItem extends StatelessWidget {
   TextEditingController buy = TextEditingController();
 
   TextEditingController quantity = TextEditingController();
-  TextEditingController date = TextEditingController();
+    TextEditingController date = TextEditingController();
+  UpdateData({
+    super.key,
+    required this.named,
+    required this.coded,
+    required this.saled,
+    required this.buyt,
+    required this.quan,
+  });
+
   @override
   Widget build(BuildContext context) {
-    data = DataBaseSqflite();
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
+        name.text = named;
+        code.text = coded;
+        sale.text = saled;
+        buy.text = buyt;
+        quantity.text = quan;
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Add Item'),
+            title: const Text('Update Data'),
             backgroundColor: ColorUsed.appBarColor,
             leading: IconButton(
               onPressed: () {
@@ -94,31 +105,36 @@ class AddItem extends StatelessWidget {
                   text: date,
                 ),
                 const SizedBox(
-                  height: 18,
+                  height: 22,
                 ),
                 OutlinedButton(
                   onPressed: () async {
-                    controller.addItems(
+                    controller.updateData(
                       {
                         DataBaseSqflite.name: name.text,
                         DataBaseSqflite.codeItem: code.text,
                         DataBaseSqflite.sale: sale.text,
                         DataBaseSqflite.buy: buy.text,
                         DataBaseSqflite.quantity: quantity.text,
-                        DataBaseSqflite.date: date.text
+                        DataBaseSqflite.date:date.text,
                       },
                     );
+                    named = "";
+                    coded = "";
+                    buyt = "";
+                    saled = "";
+                    quan ="";
+
                     name.clear();
                     code.clear();
                     sale.clear();
                     buy.clear();
-          
                     quantity.clear();
                     date.clear();
-                    controller.update();
+                  
                   },
                   child: Text(
-                    S.of(context).add,
+                    S.of(context).Update_Data,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: ColorUsed.appBarColor,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:point_of_sell/View/Colors/Colors.dart';
+
 
 // ignore: must_be_immutable
 class AllItems extends StatelessWidget {
@@ -45,10 +45,13 @@ class AllItems extends StatelessWidget {
           const SizedBox(
             width: 4,
           ),
-          IconButton(
-            onPressed: onPressed,
-            icon: const Icon(
-              Icons.edit,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: onPressed,
+              icon: const Icon(
+                Icons.more_horiz,
+              ),
             ),
           )
         ],
