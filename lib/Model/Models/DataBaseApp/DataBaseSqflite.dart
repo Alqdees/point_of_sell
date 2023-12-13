@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:path/path.dart';
@@ -83,9 +84,9 @@ class DataBaseSqflite {
     );
   }
 
-  Future<int> updateItem(Map<String, dynamic> data) async {
+  Future<int> updateItem(Map<String, dynamic> data,String i) async {
     Database? db = await databasesq;
-    return db!.update(TableName, data);
+    return db!.update(TableName, data,where: '$id = ?', whereArgs: [i]);
   }
 
   Future<List<Map<String, dynamic>?>> getAllUser(skip, limit) async {
@@ -109,11 +110,57 @@ class DataBaseSqflite {
 
      Future<List<Map<String, dynamic>>> searchInDatabase(String query) async {
     Database? db = await databasesq;
-    final List<Map<String, dynamic>> results = await db!.query(
+    // final List<Map<String, dynamic>> results = 
+    return await db!.query(
       TableName,
       where: '$name LIKE ?',
       whereArgs: ['%$query%'],
     );
-    return results;
+  }
+    Future<void> updateCostCol(double newValue) async {
+    final db = await databasesq;
+    List<Map<String, dynamic>> rows = await db!.query(TableName);
+    List<Map<String, dynamic>> updatedRows = rows.map((row) {
+      String num = row[sale].toString().replaceAll(
+            RegExp(r'[^0-9.]'), '');
+      log('____$num');
+      double oldValue = double.parse(num);
+      double updatedValue = oldValue + newValue;
+      return {...row, sale: updatedValue};
+    }).toList();
+    Batch batch = db.batch();
+    for (var row in updatedRows) {
+      batch.update(
+        TableName,
+        row,
+        where: 'id = ?',
+        whereArgs: [row[id]],
+      );
+      log('___${row[id].toString()}');
+    }
+    await batch.commit();
+  }
+  Future<void> updateBuyCol(double newValue) async {
+    final db = await databasesq;
+    List<Map<String, dynamic>> rows = await db!.query(TableName);
+    List<Map<String, dynamic>> updatedRows = rows.map((row) {
+      String num = row[buy].toString().replaceAll(
+            RegExp(r'[^0-9.]'), '');
+      log('____$num');
+      double oldValue = double.parse(num);
+      double updatedValue = oldValue + newValue;
+      return {...row, buy: updatedValue};
+    }).toList();
+    Batch batch = db.batch();
+    for (var row in updatedRows) {
+      batch.update(
+        TableName,
+        row,
+        where: 'id = ?',
+        whereArgs: [row[id]],
+      );
+      log('___${row[id].toString()}');
+    }
+    await batch.commit();
   }
 }

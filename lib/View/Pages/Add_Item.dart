@@ -8,7 +8,6 @@ import 'package:point_of_sell/generated/l10n.dart';
 import '../Widget/TextField.dart';
 
 class AddItem extends StatelessWidget {
-
   DataBaseSqflite? data;
 
   TextEditingController name = TextEditingController();
@@ -21,6 +20,8 @@ class AddItem extends StatelessWidget {
 
   TextEditingController quantity = TextEditingController();
   TextEditingController date = TextEditingController();
+
+  AddItem({super.key});
   @override
   Widget build(BuildContext context) {
     data = DataBaseSqflite();
@@ -112,7 +113,7 @@ class AddItem extends StatelessWidget {
                     code.clear();
                     sale.clear();
                     buy.clear();
-          
+
                     quantity.clear();
                     date.clear();
                     controller.update();
@@ -125,7 +126,7 @@ class AddItem extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                )
+                ),
               ]),
             ),
           ),

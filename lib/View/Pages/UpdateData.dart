@@ -7,7 +7,7 @@ import '../../generated/l10n.dart';
 import '../Colors/Colors.dart';
 
 class UpdateData extends StatelessWidget {
-  String named, coded, saled, buyt, quan;
+  String named, coded, saled, buyt, quan,id;
   late DataBaseSqflite data;
   TextEditingController name = TextEditingController();
 
@@ -18,7 +18,8 @@ class UpdateData extends StatelessWidget {
   TextEditingController buy = TextEditingController();
 
   TextEditingController quantity = TextEditingController();
-    TextEditingController date = TextEditingController();
+
+ TextEditingController date = TextEditingController();
   UpdateData({
     super.key,
     required this.named,
@@ -26,6 +27,7 @@ class UpdateData extends StatelessWidget {
     required this.saled,
     required this.buyt,
     required this.quan,
+    required this.id,
   });
 
   @override
@@ -117,7 +119,10 @@ class UpdateData extends StatelessWidget {
                         DataBaseSqflite.buy: buy.text,
                         DataBaseSqflite.quantity: quantity.text,
                         DataBaseSqflite.date:date.text,
+
                       },
+                      id
+
                     );
                     named = "";
                     coded = "";

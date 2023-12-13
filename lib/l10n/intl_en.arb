@@ -11,5 +11,9 @@
     "select": "Select ... ",
     "Update_Data": "Update Data",
     "date": "Date",
-    "search": "Search"
+    "search": "Search",
+    "update_price": "Update All Price",
+    "sale_price": "Sale Update Price",
+    "buy_price": "Buy Update Price",
+"account_orders":"Account Orders"
 }

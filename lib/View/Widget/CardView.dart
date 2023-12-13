@@ -7,14 +7,12 @@ import '../Pages/UpdateData.dart';
 import 'AllItems.dart';
 
 class CardView extends StatelessWidget {
-  const CardView({Key? key}) : super(key: key);
-
+  CardView({Key? key}) : super(key: key);
+  HomeController c = Get.find();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
-      init: HomeController(),
       builder: (controller) {
-        controller.paginationData();
         return controller.items.isEmpty
             ? const Center(
                 child: Column(
@@ -52,6 +50,7 @@ class CardView extends StatelessWidget {
                                       children: [
                                         TextButton(
                                           onPressed: () {
+                                            Get.back();
                                             Get.to(
                                               UpdateData(
                                                 named: controller
@@ -64,6 +63,7 @@ class CardView extends StatelessWidget {
                                                     controller.items[index].buy,
                                                 quan: controller
                                                     .items[index].quantity,
+                                                id: controller.items[index].id,
                                               ),
                                             );
                                           },

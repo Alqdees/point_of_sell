@@ -22,6 +22,7 @@ class TextFieldCustom extends StatelessWidget {
         controller: text,
         decoration: InputDecoration(
           labelText: name,
+          
           prefixIcon: Icon(
             icons,
             color: ColorUsed.appBarColor,

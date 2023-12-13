@@ -3,78 +3,102 @@ import 'package:get/get.dart';
 import 'package:point_of_sell/Control/HomeController.dart';
 import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
 import 'package:point_of_sell/View/Colors/Colors.dart';
+import 'package:point_of_sell/View/Pages/Account%20Orders.dart';
 import 'package:point_of_sell/View/Pages/Add_Item.dart';
 import 'package:point_of_sell/View/Pages/UpdateData.dart';
+import 'package:point_of_sell/View/Pages/UpdatePrice.dart';
 import 'package:point_of_sell/View/Widget/AllItems.dart';
 import 'package:point_of_sell/generated/l10n.dart';
 
 import '../Widget/CardView.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final ch = Get.lazyPut(() => HomeController(), fenix: true);
+  HomeController c = Get.find();
 
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
-    return GetBuilder<HomeController>(
-      init: HomeController(),
-      builder: (controller) {
-        return Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            toolbarHeight: 65.0,
-            backgroundColor: ColorUsed.appBarColor,
-            leading: IconButton(
-              onPressed: () {
-                scaffoldKey.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
-            ),
-            title: controller.title,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  controller.changeWidget();
-                },
-                icon: controller.actionsicon,
-              ),
-            ],
-          ), // _appBar(context, scaffoldKey, controller),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: ColorUsed.appBarColor,
-                  ),
-                  child: Text(
-                    S.of(context).SaleofPoint,
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text(S.of(context).add),
-                  onTap: () {
-                    Get.to(AddItem());
-                  },
-                ),
-                ListTile(
-                  title: const Text('Item 2'),
-                  onTap: () {},
-                ),
-              ],
+    c.paginationData();
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        toolbarHeight: 65.0,
+        backgroundColor: ColorUsed.appBarColor,
+        leading: IconButton(
+          onPressed: () {
+            scaffoldKey.currentState!.openDrawer();
+          },
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
+        ),
+        title: GetBuilder<HomeController>(
+          builder: (controller) {
+            return controller.title;
+          },
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              c.changeWidget();
+            },
+            icon: GetBuilder<HomeController>(
+              builder: (controller) => controller.actionsicon,
             ),
           ),
-          body: const CardView(),
-        );
-      },
+        ],
+      ), // _appBar(context, scaffoldKey, controller),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: ColorUsed.appBarColor,
+              ),
+              child: Text(
+                S.of(context).SaleofPoint,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(S.of(context).add),
+              onTap: () {
+                Get.to(AddItem());
+              },
+            ),
+            SizedBox(
+              width: 5,
+              height: 1,
+              child: Container(color: ColorUsed.appBarColor),
+            ),
+            ListTile(
+              title: Text(S.of(context).update_price),
+              onTap: () {
+                Get.to(UpdatePrice());
+              },
+            ),
+             SizedBox(
+              width: 5,
+              height: 1,
+              child: Container(color: ColorUsed.appBarColor),
+            ),
+            ListTile(
+              title: Text(S.of(context).account_orders),
+              onTap: () {
+                Get.to(const AccountOrders());
+              },
+            ),
+          ],
+        ),
+      ),
+      body: CardView(),
     );
   }
 

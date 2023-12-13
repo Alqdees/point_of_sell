@@ -179,6 +179,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Update All Price`
+  String get update_price {
+    return Intl.message(
+      'Update All Price',
+      name: 'update_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sale Update Price`
+  String get sale_price {
+    return Intl.message(
+      'Sale Update Price',
+      name: 'sale_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buy Update Price`
+  String get buy_price {
+    return Intl.message(
+      'Buy Update Price',
+      name: 'buy_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Orders`
+  String get account_orders {
+    return Intl.message(
+      'Account Orders',
+      name: 'account_orders',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

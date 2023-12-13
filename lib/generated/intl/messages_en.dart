@@ -24,8 +24,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "SaleofPoint": MessageLookupByLibrary.simpleMessage("Point Of Sale"),
         "Update_Data": MessageLookupByLibrary.simpleMessage("Update Data"),
+        "account_orders":
+            MessageLookupByLibrary.simpleMessage("Account Orders"),
         "add": MessageLookupByLibrary.simpleMessage("Add Item"),
         "buy": MessageLookupByLibrary.simpleMessage("Buy"),
+        "buy_price": MessageLookupByLibrary.simpleMessage("Buy Update Price"),
         "code": MessageLookupByLibrary.simpleMessage("Code"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -33,7 +36,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemName": MessageLookupByLibrary.simpleMessage("Item Name"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
         "sale": MessageLookupByLibrary.simpleMessage("Sale"),
+        "sale_price": MessageLookupByLibrary.simpleMessage("Sale Update Price"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
-        "select": MessageLookupByLibrary.simpleMessage("Select ... ")
+        "select": MessageLookupByLibrary.simpleMessage("Select ... "),
+        "update_price": MessageLookupByLibrary.simpleMessage("Update All Price")
       };
 }

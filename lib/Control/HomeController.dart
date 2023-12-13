@@ -21,10 +21,11 @@ class HomeController extends GetxController {
   Future<void> addItems(Map<String, dynamic> data) async {
     await dataBaseSqflite.insert(data);
     items.clear();
+    paginationData();
     update();
   }
 
-  Future<void> paginationData() async {
+  void paginationData() async {
     // items are list All data
     if (items.isEmpty) {
       getPData();
@@ -63,12 +64,29 @@ class HomeController extends GetxController {
   Future<void> deleteItem(String id) async {
     items.clear();
     await dataBaseSqflite.delete(id);
+    paginationData();
     update();
   }
 
-  Future<void> updateData(Map<String, dynamic> data) async {
+  Future<void> updateData(Map<String, dynamic> data, String id) async {
     items.clear();
-    await dataBaseSqflite.updateItem(data);
+    await dataBaseSqflite.updateItem(data, id);
+    paginationData();
+    update();
+  }
+
+  Future<void> updateSalePrice(double v) async {
+    items.clear();
+    await dataBaseSqflite.updateCostCol(v);
+    paginationData();
+    update();
+  }
+
+  
+  Future<void> updateBuyPrice(double v) async {
+    items.clear();
+    await dataBaseSqflite.updateBuyCol(v);
+    paginationData();
     update();
   }
 
@@ -108,6 +126,7 @@ class HomeController extends GetxController {
     if (actionsicon.icon == Icons.search) {
       copy = items;
       actionsicon = const Icon(Icons.close, color: Colors.white);
+      print("objects copied");
       title = TextFormField(
         controller: text,
         keyboardType: TextInputType.text,
@@ -139,6 +158,7 @@ class HomeController extends GetxController {
       );
       title = const Text('Any');
       update();
+      paginationData();
     }
     // update();
   }
