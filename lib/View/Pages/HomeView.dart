@@ -92,7 +92,7 @@ class HomeView extends StatelessWidget {
             ListTile(
               title: Text(S.of(context).account_orders),
               onTap: () {
-                Get.to(const AccountOrders());
+                Get.to( AccountOrders());
               },
             ),
           ],

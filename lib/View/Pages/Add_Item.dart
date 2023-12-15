@@ -51,7 +51,7 @@ class AddItem extends StatelessWidget {
                 ),
                 TextFieldCustom(
                   name: S.of(context).itemName,
-                  icons: Icons.person,
+                  icons: Icons.shape_line,
                   text: name,
                 ),
                 const SizedBox(

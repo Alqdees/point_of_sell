@@ -15,7 +15,7 @@ class HomeController extends GetxController {
   int skip = 0;
   int limit = 20;
   late DataBaseSqflite dataBaseSqflite;
-  HomeController() {
+  HomeController()  {
     dataBaseSqflite = DataBaseSqflite();
   }
   Future<void> addItems(Map<String, dynamic> data) async {
@@ -68,7 +68,10 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<void> updateData(Map<String, dynamic> data, String id) async {
+  Future<void> updateData(
+    Map<String, dynamic> data,
+    String id,
+  ) async {
     items.clear();
     await dataBaseSqflite.updateItem(data, id);
     paginationData();
@@ -82,7 +85,6 @@ class HomeController extends GetxController {
     update();
   }
 
-  
   Future<void> updateBuyPrice(double v) async {
     items.clear();
     await dataBaseSqflite.updateBuyCol(v);
@@ -126,7 +128,7 @@ class HomeController extends GetxController {
     if (actionsicon.icon == Icons.search) {
       copy = items;
       actionsicon = const Icon(Icons.close, color: Colors.white);
-      print("objects copied");
+     
       title = TextFormField(
         controller: text,
         keyboardType: TextInputType.text,
