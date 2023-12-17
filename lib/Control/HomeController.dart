@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:point_of_sell/Model/Models/DataBaseApp/DataBaseSqflite.dart';
 import 'package:point_of_sell/Model/Models/Items.dart';
 import 'package:point_of_sell/generated/l10n.dart';
-
-import '../View/Colors/Colors.dart';
 
 class HomeController extends GetxController {
   List<Items> items = [];
@@ -15,7 +12,7 @@ class HomeController extends GetxController {
   int skip = 0;
   int limit = 20;
   late DataBaseSqflite dataBaseSqflite;
-  HomeController()  {
+  HomeController() {
     dataBaseSqflite = DataBaseSqflite();
   }
   Future<void> addItems(Map<String, dynamic> data) async {
@@ -118,6 +115,7 @@ class HomeController extends GetxController {
 //     }
 //     notifyListeners();
 //   }
+
   Widget title = const Text('Any');
   Icon actionsicon = const Icon(
     Icons.search,
@@ -128,7 +126,7 @@ class HomeController extends GetxController {
     if (actionsicon.icon == Icons.search) {
       copy = items;
       actionsicon = const Icon(Icons.close, color: Colors.white);
-     
+
       title = TextFormField(
         controller: text,
         keyboardType: TextInputType.text,
@@ -183,6 +181,50 @@ class HomeController extends GetxController {
     items.clear();
     items = newResult;
     update();
+  }
+
+  Future<void> insertInAccount(Map<String, dynamic> data) async {
+    await dataBaseSqflite.insertInAccount(data);
+    update();
+  }
+
+  List<Items> accounts = [];
+  Future<void> getDataFromAccount() async {
+    // DataBaseHelper _baseHelper = DataBaseHelper();
+    var dataList = await dataBaseSqflite.getAllDataFromAccount(skip, limit);
+    var item = dataList
+        .map((i) => Items(
+              name: i![DataBaseSqflite.name].toString(),
+              code: i[DataBaseSqflite.codeItem].toString(),
+              sale: i[DataBaseSqflite.sale].toString(),
+              buy: i[DataBaseSqflite.buy].toString(),
+              quantity: i[DataBaseSqflite.quantity].toString(),
+              id: i[DataBaseSqflite.id].toString(),
+            ))
+        .toList();
+    // log('${item.length} ____');
+
+    accounts.addAll(item);
+    update();
+  }
+
+  List<Items> search = [];
+  void accountOrder(
+    String v,
+  ) async {
+    search.clear();
+    List<Map<String, dynamic>>? getData = await dataBaseSqflite.accountOrder(v);
+
+    search = getData
+        .map((item) => Items(
+              name: item[DataBaseSqflite.name],
+              code: item[DataBaseSqflite.codeItem],
+              sale: item[DataBaseSqflite.sale],
+              buy: item[DataBaseSqflite.buy],
+              quantity: item[DataBaseSqflite.quantity],
+              id: item[DataBaseSqflite.id].toString(),
+            ))
+        .toList();
   }
 
   void newFunction() async {

@@ -8,8 +8,9 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DataBaseSqflite {
   static const dataBaseName = "Point.db";
-  static const version = 1;
+  static const version =1;
   static const TableName = 'Items';
+  static const TableAccount = 'Account';
   static const id = 'ID';
   static const name = 'Name';
   static const codeItem = 'Code';
@@ -54,22 +55,22 @@ class DataBaseSqflite {
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       await File(path).writeAsBytes(bytes);
-    } else {
-      // print("opening data first");
     }
     return await openDatabase(path, version: version);
   }
 
   Future<Database?> windowsApp() async {
     final path = await getDatabasesPath();
-  
+
     return await s.openDatabase(
       path,
       options: OpenDatabaseOptions(
         version: version,
         onCreate: (db, version) async {
-          await db.execute(
+           await db.execute(
               "CREATE TABLE IF NOT EXISTS $TableName ($id INTEGER PRIMARY KEY AUTOINCREMENT  , $name TEXT , $codeItem TEXT , $sale TEXT , $buy TEXT , $quantity TEXT ,$date TEXT )");
+         db.execute(
+              "CREATE TABLE IF NOT EXISTS $TableAccount ($id INTEGER PRIMARY KEY , $name TEXT  , $sale TEXT  , $quantity TEXT )");
         },
       ),
     );
@@ -84,9 +85,26 @@ class DataBaseSqflite {
     );
   }
 
-  Future<int> updateItem(Map<String, dynamic> data,String i) async {
+  Future<int> insertInAccount(Map<String, dynamic> data) async {
     Database? db = await databasesq;
-    return db!.update(TableName, data,where: '$id = ?', whereArgs: [i]);
+    return db!.insert(
+      TableAccount,
+      data,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<Map<String, dynamic>?>> getAllDataFromAccount(skip, limit) async {
+    Database? db = await databasesq;
+    var result = await db!.rawQuery(
+        'SELECT * FROM $TableAccount  WHERE ID > $skip ORDER BY ID LIMIT $limit');
+
+    return result.toList();
+  }
+
+  Future<int> updateItem(Map<String, dynamic> data, String i) async {
+    Database? db = await databasesq;
+    return db!.update(TableName, data, where: '$id = ?', whereArgs: [i]);
   }
 
   Future<List<Map<String, dynamic>?>> getAllUser(skip, limit) async {
@@ -108,21 +126,21 @@ class DataBaseSqflite {
     );
   }
 
-     Future<List<Map<String, dynamic>>> searchInDatabase(String query) async {
+  Future<List<Map<String, dynamic>>> searchInDatabase(String query) async {
     Database? db = await databasesq;
-    // final List<Map<String, dynamic>> results = 
+    // final List<Map<String, dynamic>> results =
     return await db!.query(
       TableName,
       where: '$name LIKE ?',
       whereArgs: ['%$query%'],
     );
   }
-    Future<void> updateCostCol(double newValue) async {
+
+  Future<void> updateCostCol(double newValue) async {
     final db = await databasesq;
     List<Map<String, dynamic>> rows = await db!.query(TableName);
     List<Map<String, dynamic>> updatedRows = rows.map((row) {
-      String num = row[sale].toString().replaceAll(
-            RegExp(r'[^0-9.]'), '');
+      String num = row[sale].toString().replaceAll(RegExp(r'[^0-9.]'), '');
       log('____$num');
       double oldValue = double.parse(num);
       double updatedValue = oldValue + newValue;
@@ -140,12 +158,12 @@ class DataBaseSqflite {
     }
     await batch.commit();
   }
+
   Future<void> updateBuyCol(double newValue) async {
     final db = await databasesq;
     List<Map<String, dynamic>> rows = await db!.query(TableName);
     List<Map<String, dynamic>> updatedRows = rows.map((row) {
-      String num = row[buy].toString().replaceAll(
-            RegExp(r'[^0-9.]'), '');
+      String num = row[buy].toString().replaceAll(RegExp(r'[^0-9.]'), '');
       log('____$num');
       double oldValue = double.parse(num);
       double updatedValue = oldValue + newValue;
@@ -162,5 +180,17 @@ class DataBaseSqflite {
       log('___${row[id].toString()}');
     }
     await batch.commit();
+  }
+
+  Future<List<Map<String, dynamic>>> accountOrder(
+    String query,
+  ) async {
+    Database? db = await databasesq;
+    // final List<Map<String, dynamic>> results =
+    return await db!.query(
+      TableName,
+      where: '$name LIKE ?',
+      whereArgs: ['%$query%'],
+    );
   }
 }
